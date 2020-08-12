@@ -2,14 +2,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using MatchMaking.API.Data;
 using MatchMaking.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace MatchMaking.API.Controllers
 {
+    [Authorize]
     [ApiController]
-    [Route("[controller]")]
-
+    [Route("api/[controller]")]
     public class ValuesController : ControllerBase
     {
         private readonly DataContext context;
@@ -26,10 +27,10 @@ namespace MatchMaking.API.Controllers
             return Ok(data);
         }
 
-        [HttpGet("getvalue/{id}")] 
+        [HttpGet("getvalue/{id}")]
         public async Task<IActionResult> GetSingleValue(int id)
         {
-            var data = await context.Value.FirstOrDefaultAsync(x => x.Id == id) ?? null;
+            var data = await context.Value.FirstOrDefaultAsync(x => x.Id == id);
 
             return Ok(data);
         }
