@@ -19,6 +19,7 @@ namespace MatchMaking.API.Controllers
             this.context = context;
         }
 
+        [AllowAnonymous]
         [HttpGet("getvalues")]
         public async Task<IActionResult> GetVals()
         {
@@ -27,6 +28,7 @@ namespace MatchMaking.API.Controllers
             return Ok(data);
         }
 
+        [AllowAnonymous]
         [HttpGet("getvalue/{id}")]
         public async Task<IActionResult> GetSingleValue(int id)
         {
