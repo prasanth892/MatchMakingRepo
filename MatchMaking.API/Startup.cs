@@ -19,6 +19,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Diagnostics;
 using MatchMaking.API.Helpers;
+using AutoMapper;
 
 namespace MatchMaking.API
 {
@@ -38,11 +39,13 @@ namespace MatchMaking.API
 
             services.AddMvc().AddNewtonsoftJson(options=> options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddCors();
-
+            services.AddAutoMapper();
+            services.AddTransient<Seed>();
             services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("SqliteConnection")));
             services.AddControllers();
 
             services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IMatchMakingRepository, MatchMakingRepository>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(option =>
           {
@@ -57,7 +60,7 @@ namespace MatchMaking.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, Seed seeder)
         {
             if (env.IsDevelopment())
             {
@@ -81,8 +84,7 @@ namespace MatchMaking.API
    
             }
 
-            // app.UseMvc();
-
+          //  seeder.SeedUsers();
 
             app.UseCors(builder => builder
               .AllowAnyOrigin()

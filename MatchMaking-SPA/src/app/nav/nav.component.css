@@ -4,4 +4,19 @@ button:focus {
 
 .navbar .dropdown-menu .form-control {
   width: 200px;
+  color: black;
 }
+
+
+.dropdown-toggle{
+  cursor: pointer;
+}
+
+a:hover {
+  text-decoration: none;
+  }
+
+
+#ddList:hover {
+    color: red;
+    }

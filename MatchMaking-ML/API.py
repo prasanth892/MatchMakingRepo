@@ -340,9 +340,32 @@ def reccomendProfiles():
         return 'no data'
 
 
+@app.route('/getProfiles', methods=['GET'])
+def getProfiles():
 
+       # Loading in the original unclustered DF
+        with open("clustered_profiles.pkl",'rb') as fp:
+            cluster_df = pickle.load(fp)
+
+            cluster_df = cluster_df.iloc[1:, :-1]
+            
+
+
+            # cluster_df.to_csv('cluster-dv.csv');
+            return cluster_df[:100].to_json() 
+            
+
+    
+    
+    
+        # if( cluster_df is None):
+        #     return cluster_df 
+        # else: 
+        #     abort(400)
+    
+    
 
 
 if(__name__ == "__main__"):
-    app.run()
+    app.run(host='127.0.0.1', port=8080)
     

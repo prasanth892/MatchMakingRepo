@@ -3,8 +3,8 @@
 
 
   <div class="container">
-    <a  routerLinkActive="router-link-active"  class="navbar-brand" href="#"> <span id="spanText" style="float: left; font-weight: bolder; font-size: 25px;"
-       routerLinkActive="router-link-active" ><img src="https://vignette.wikia.nocookie.net/legendsofthemultiuniverse/images/3/3f/Nazi-logo-blank-wallpaper-german-wallpaper_1456540019.jpg"
+    <a  class="navbar-brand" href="#"> <span id="spanText" style="float: left; font-weight: bolder; font-size: 25px;" [routerLink]="['/home']"
+       ><img src="https://vignette.wikia.nocookie.net/legendsofthemultiuniverse/images/3/3f/Nazi-logo-blank-wallpaper-german-wallpaper_1456540019.jpg"
        style="height: 40px;" alt=""> AI - Match Making</span></a>
 
     <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
@@ -22,17 +22,15 @@
       <div *ngIf="loggedIn()" class="collapse navbar-collapse" id="navbarsExampleDefault"  style="cursor: pointer">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item " routerLinkActive="active">
-            <a class="nav-link linkClass text-light"  >Manage CV </a>
+            <a class="nav-link linkClass text-light"  [routerLink]="['/members']" >Matches </a>
           </li>
           <li class="nav-item" routerLinkActive="active">
-              <a class="nav-link  linkClass text-light"    >Find Jobs </a>
+              <a class="nav-link  linkClass text-light"  [routerLink]="['/lists']" >Lists </a>
             </li>
           <li class="nav-item" routerLinkActive="active">
-            <a class="nav-link  linkClass text-light"  >Messages </a>
+            <a class="nav-link  linkClass text-light" [routerLink]="['/messages']" >Messages </a>
           </li>
-          <li class="nav-item" routerLinkActive="active">
-            <a class="nav-link  linkClass text-light" (click)="logout()" >Log out</a>
-          </li>
+
         </ul>
       </div>
 
@@ -124,25 +122,27 @@
 
     <!-- </div> -->
 
-    <div *ngIf="loggedIn()">
-      <a class="dropdown-toggle  text-light" >
-        Welcome User
+    <div *ngIf="loggedIn()" class="dropdown" dropdown>
+      <a class="dropdown-toggle  text-light" dropdownToggle>
+        Welcome {{authService.decodedToken.unique_name | titlecase}}
       </a>
 
-      <div class="dropdown-menu" >
-        <a class="dropdown-item" href="#"><i class="fa fa-user"></i>Edit Profile</a>
+      <div class="dropdown-menu mt-3"  *dropdownMenu>
+        <a class="dropdown-item" style="color: black;" id="ddList" [routerLink]="['/member/edit']" ><i class="fa fa-user"></i>Edit Profile</a>
         <div class="div-dropdown-divider"></div>
-        <a class="dropdown-item" href="#"><i class="fa fa-sign-out"></i>Logout</a>
+        <a class="dropdown-item" href="#" style="color: black;" id="ddList" (click)="logout()"><i class="fa fa-sign-out"></i>Logout</a>
       </div>
     </div>
 
     <form *ngIf="!loggedIn()" class="form-inline my-2 my-lg-0 " #loginForm="ngForm" (ngSubmit)="login()" >
-      <input class="form-control mr-sm-2 formLogin " style="width: 200px ; height:30px " type="text" placeholder="Username" name="username"
+      <input class="form-control mr-sm-2 formLogin " style="width: 200px ; height:25px; font-size: 12px; " type="text" placeholder="Username" name="username"
         [(ngModel)]="model.username" required>
-      <input class="form-control mr-sm-2 formLogin " style="width: 200px; height:30px " type="password" placeholder="Password" name="password"
+      <input class="form-control mr-sm-2 formLogin " style="width: 200px; height:25px; font-size: 12px;" type="password" placeholder="Password" name="password"
         [(ngModel)]="model.password" required>
 
-      <button id="btnLogin" class="btn btn-danger btn-sm " style="border-radius: 5px; width: 70px; height:30px; font-size: 14px" type="submit" [disabled]="!loginForm.valid">Login</button>
+      <button id="btnLogin" class="btn-sm btn-outline-info" style="border-radius: 5px; width: 70px; height:6px; padding-bottom: 25px; " type="submit" [disabled]="!loginForm.valid">Login</button>
+      <!-- <button class="btn-sm btn-outline-info">Cancel</button>
+      <button type="submit" class="btn btn-primary btn-raised">Submit</button> -->
     </form>
 
 
