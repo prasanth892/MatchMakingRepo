@@ -39,6 +39,7 @@ namespace MatchMaking.API
 
             services.AddMvc().AddNewtonsoftJson(options=> options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddCors();
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
             services.AddAutoMapper();
             services.AddTransient<Seed>();
             services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("SqliteConnection")));
@@ -46,6 +47,7 @@ namespace MatchMaking.API
 
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IMatchMakingRepository, MatchMakingRepository>();
+            services.AddScoped<LogUserActivity>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(option =>
           {

@@ -17,6 +17,7 @@ import { AuthenticationService } from 'src/app/_services/authentication.service'
 export class MemberEditComponent implements OnInit {
 user: User;
 clickedInterests = false;
+photoUrl: string;
 @ViewChild('memberEditForm', {static: true}) memberEditForm: NgForm;
 
 @HostListener('window:beforeunload', ['$event']) unloadNotification($event: any) {
@@ -33,7 +34,10 @@ clickedInterests = false;
     this.route.data.subscribe(data => {
       this.user = data.user;
     });
+    this.authService.currentPhotoUrl.subscribe(photoUrl => this.photoUrl = photoUrl);
+
   }
+
 
   changeToZero(interest) {
 
@@ -82,6 +86,10 @@ clickedInterests = false;
 
   clickInterests() {
     this.clickedInterests = true;
+  }
+
+  updateMainPhoto(photoUrl) {
+    this.user.photoUrl = photoUrl;
   }
 
 }

@@ -10,6 +10,7 @@ namespace MatchMaking.API.Models
         public string  Description { get; set; }
         public DateTime DatedAdded { get; set; }
         public bool IsMain { get; set; }
+        public string PublicId { get; set; }
         public User User { get; set; } // To make ef migrations CASCADE Delete Photoes
         public int UserId { get; set; } // To make ef migrations CASCADE Delete Photoes
 

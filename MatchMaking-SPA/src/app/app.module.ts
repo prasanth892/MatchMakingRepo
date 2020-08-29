@@ -1,8 +1,9 @@
 import { BrowserModule, HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import {  TabsModule } from 'ngx-bootstrap/tabs';
 import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
 import { RouterModule } from '@angular/router';
@@ -10,6 +11,14 @@ import { JwtModule } from '@auth0/angular-jwt';
 import {NgxGalleryModule} from 'ngx-gallery-9';
 import { BarRatingModule } from 'ngx-bar-rating';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap' ;
+import { FileUploadModule } from 'ng2-file-upload';
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import {TimeAgoPipe} from 'time-ago-pipe';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { MatSelectCountryModule } from '@angular-material-extensions/select-country';
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatSelectModule } from "@angular/material/select";
 
 
 import { AppComponent } from './app.component';
@@ -33,6 +42,8 @@ import { MemberListResolver } from './_resolvers/member-list.resolver';
 import { MemberEditComponent } from './members/member-edit/member-edit.component';
 import { MemberEditResolver } from './_resolvers/member-edit.resolver';
 import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
+import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
+import { ListsResolver } from './_resolvers/lists.resolver';
 
 
 export function getToken(){
@@ -59,19 +70,29 @@ export class CustomHammerConfig extends HammerGestureConfig  {
       MemberCardComponent,
       MemberDetailComponent,
       MemberEditComponent,
-
+      PhotoEditorComponent,
+      TimeAgoPipe
    ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
     NgbModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    HttpClientModule,
+    MatSelectCountryModule,
+    PaginationModule.forRoot(),
+    ButtonsModule.forRoot(),
+    BsDatepickerModule.forRoot(),
     TabsModule.forRoot(),
     BsDropdownModule.forRoot(),
     ProgressbarModule.forRoot(),
     NgxGalleryModule,
     BarRatingModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
+    FileUploadModule,
     RouterModule.forRoot(appRoutes),
     JwtModule.forRoot({
       config: {
@@ -92,7 +113,8 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     MemberListResolver,
     { provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig },
     MemberEditResolver,
-    PreventUnsavedChanges
+    PreventUnsavedChanges,
+    ListsResolver
 
 
   ],

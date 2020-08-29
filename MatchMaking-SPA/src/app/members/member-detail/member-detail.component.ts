@@ -4,6 +4,8 @@ import { UserService } from 'src/app/_services/user.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { ActivatedRoute } from '@angular/router';
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery-9';
+import {TimeAgoPipe} from 'time-ago-pipe';
+import { AuthenticationService } from 'src/app/_services/authentication.service';
 
 @Component({
   selector: 'app-member-detail',
@@ -25,8 +27,7 @@ export class MemberDetailComponent implements OnInit {
 
   constructor(
     private userService: UserService, private alertifyService: AlertifyService,
-    private route: ActivatedRoute
-  ) {}
+    private route: ActivatedRoute, private authService: AuthenticationService) {}
 
   ngOnInit() {
     // this.loadUser();
@@ -43,7 +44,7 @@ export class MemberDetailComponent implements OnInit {
 
     this.galleryOptions = [
       {
-          width: '500px',
+          width: '100%',
           height: '500px',
           thumbnailsColumns: 4,
           imageAnimation: NgxGalleryAnimation.Slide,
@@ -56,7 +57,6 @@ export class MemberDetailComponent implements OnInit {
     console.log(this.getImages());
 
   }
-
   getImages(){
     const imageUrls = [];
     for (let i = 0; i < this.user.photos.length; i++) {
@@ -70,6 +70,13 @@ export class MemberDetailComponent implements OnInit {
     return imageUrls;
   }
 
+  sendLike(id: number) {
+    this.userService.sendLike(this.authService.decodedToken.nameid, id).subscribe(data => {
+      this.alertifyService.success('You have liked  ' + this.user.knownAs);
+    }, error => {
+      this.alertifyService.error(error);
+    });
+  }
   // loadUser() {
   //   this.userService.getUser(+this.route.snapshot.params['id']).subscribe(
   //     (next: User) => {

@@ -1,0 +1,20 @@
+img.img-thumbnail {
+  height: 80px;
+  min-width: 80px !important;
+  margin-bottom: 2px;
+}
+
+.nv-file-over{
+  border: dotted 3px red;
+}
+
+input[type=file] {
+  color: transparent;
+}
+
+
+.divPhotoContainer {
+
+  max-height: 250px;
+  overflow-x: hidden;
+}

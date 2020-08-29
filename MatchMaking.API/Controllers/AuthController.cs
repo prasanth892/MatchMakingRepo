@@ -2,6 +2,7 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AutoMapper;
 using MatchMaking.API.Data;
 using MatchMaking.API.Dtos;
 using MatchMaking.API.Models;
@@ -18,8 +19,10 @@ namespace MatchMaking.API.Controllers
     {
         private readonly IAuthRepository repo;
         private readonly IConfiguration configuration;
-        public AuthController(IAuthRepository repo, IConfiguration configuration)
+        private readonly IMapper mapper;
+        public AuthController(IAuthRepository repo, IConfiguration configuration, IMapper mapper)
         {
+            this.mapper = mapper;
             this.configuration = configuration;
             this.repo = repo;
         }
@@ -35,15 +38,13 @@ namespace MatchMaking.API.Controllers
             if (await repo.UserExists(userForRegisterDto.Username))
                 return BadRequest("Username already exists");
 
-            var userToCreate = new User
-            {
-                Username = userForRegisterDto.Username
-            };
+            var userToCreate = mapper.Map<User>(userForRegisterDto);
 
             var createdUser = await repo.Register(userToCreate, userForRegisterDto.Password);
 
-            // Change later
-            return StatusCode(201);
+            var userToReturn = mapper.Map<UserForDetailDto>(createdUser);
+            
+            return CreatedAtRoute("getuser", new {controller = "user", id = createdUser.Id}, userToReturn);
         }
 
         [HttpPost("login")]
@@ -77,7 +78,7 @@ namespace MatchMaking.API.Controllers
 
             var token = tokenhandler.CreateToken(tokenDescriptor);
 
-            //var user = _mapper.Map<UserForListDTO>(userFromRepo);
+            var user = mapper.Map<UserForListDto>(userFromRepo);
 
             // Logging testing workin
             // _logger.LogInformation("Index page says hello");
@@ -88,7 +89,7 @@ namespace MatchMaking.API.Controllers
             {
                 token = tokenhandler.WriteToken(token),
                 // userFromRepo.UserType,
-                userFromRepo.Username
+                user
 
             });
         }

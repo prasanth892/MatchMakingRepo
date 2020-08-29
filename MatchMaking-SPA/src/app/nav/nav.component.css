@@ -18,5 +18,16 @@ a:hover {
 
 
 #ddList:hover {
-    color: red;
-    }
+  background-color: lightslategrey;
+}
+
+#navImage {
+  max-height: 40px;
+  border: 2px solid white;
+  display: inline;
+}
+
+
+#btnLogin {
+height: 5px;
+}

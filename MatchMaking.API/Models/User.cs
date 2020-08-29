@@ -28,6 +28,8 @@ namespace MatchMaking.API.Models
         public string Politics { get; set; }
 
         public ICollection<Photo> Photos { get; set; }
+        public ICollection<Like> Likers { get; set; }
+        public ICollection<Like> Likees { get; set; }
 
 
     }

@@ -16,6 +16,21 @@ namespace MatchMaking.API.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.6");
 
+            modelBuilder.Entity("MatchMaking.API.Models.Like", b =>
+                {
+                    b.Property<int>("LikerId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("LikeeId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("LikerId", "LikeeId");
+
+                    b.HasIndex("LikeeId");
+
+                    b.ToTable("Likes");
+                });
+
             modelBuilder.Entity("MatchMaking.API.Models.Photo", b =>
                 {
                     b.Property<int>("Id")
@@ -30,6 +45,9 @@ namespace MatchMaking.API.Migrations
 
                     b.Property<bool>("IsMain")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("PublicId")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Url")
                         .HasColumnType("TEXT");
@@ -124,6 +142,21 @@ namespace MatchMaking.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Value");
+                });
+
+            modelBuilder.Entity("MatchMaking.API.Models.Like", b =>
+                {
+                    b.HasOne("MatchMaking.API.Models.User", "Likee")
+                        .WithMany("Likers")
+                        .HasForeignKey("LikeeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("MatchMaking.API.Models.User", "Liker")
+                        .WithMany("Likees")
+                        .HasForeignKey("LikerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MatchMaking.API.Models.Photo", b =>

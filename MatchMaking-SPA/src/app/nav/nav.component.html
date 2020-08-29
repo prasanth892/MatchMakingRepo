@@ -3,7 +3,7 @@
 
 
   <div class="container">
-    <a  class="navbar-brand" href="#"> <span id="spanText" style="float: left; font-weight: bolder; font-size: 25px;" [routerLink]="['/home']"
+    <a  class="navbar-brand" href="#"> <span id="spanText" style="float: left; font-weight: bolder; font-size: 25px;" (click)="gotoRegistrationPage()"  skipLocationChange
        ><img src="https://vignette.wikia.nocookie.net/legendsofthemultiuniverse/images/3/3f/Nazi-logo-blank-wallpaper-german-wallpaper_1456540019.jpg"
        style="height: 40px;" alt=""> AI - Match Making</span></a>
 
@@ -123,11 +123,13 @@
     <!-- </div> -->
 
     <div *ngIf="loggedIn()" class="dropdown" dropdown>
+      <span class="mr-1">
+        <img id="navImage" [src]="photoUrl === null ? '../../../../assets/user.png' : photoUrl" onerror="'../../../../assets/user.png '" alt="">
+      </span>
       <a class="dropdown-toggle  text-light" dropdownToggle>
-        Welcome {{authService.decodedToken.unique_name | titlecase}}
+        Welcome {{authService.currentUser.knownAs | titlecase}}
       </a>
-
-      <div class="dropdown-menu mt-3"  *dropdownMenu>
+      <div class="dropdown-menu mt-2" style="margin-top: 0px;"  *dropdownMenu>
         <a class="dropdown-item" style="color: black;" id="ddList" [routerLink]="['/member/edit']" ><i class="fa fa-user"></i>Edit Profile</a>
         <div class="div-dropdown-divider"></div>
         <a class="dropdown-item" href="#" style="color: black;" id="ddList" (click)="logout()"><i class="fa fa-sign-out"></i>Logout</a>
@@ -135,12 +137,12 @@
     </div>
 
     <form *ngIf="!loggedIn()" class="form-inline my-2 my-lg-0 " #loginForm="ngForm" (ngSubmit)="login()" >
-      <input class="form-control mr-sm-2 formLogin " style="width: 200px ; height:25px; font-size: 12px; " type="text" placeholder="Username" name="username"
+      <input class="form-control mr-sm-2 formLogin " style="width: 200px ; height:30px; font-size: 12px; " type="text" placeholder="Username" name="username"
         [(ngModel)]="model.username" required>
-      <input class="form-control mr-sm-2 formLogin " style="width: 200px; height:25px; font-size: 12px;" type="password" placeholder="Password" name="password"
+      <input class="form-control mr-sm-2 formLogin " style="width: 200px; height:30px; font-size: 12px;" type="password" placeholder="Password" name="password"
         [(ngModel)]="model.password" required>
 
-      <button id="btnLogin" class="btn-sm btn-outline-info" style="border-radius: 5px; width: 70px; height:6px; padding-bottom: 25px; " type="submit" [disabled]="!loginForm.valid">Login</button>
+      <button id="btnLogin" class="btn-sm btn btn-info" style="border-radius: 8px; width: 70px;  padding-bottom: 25px; " type="submit" [disabled]="!loginForm.valid">Login</button>
       <!-- <button class="btn-sm btn-outline-info">Cancel</button>
       <button type="submit" class="btn btn-primary btn-raised">Submit</button> -->
     </form>
