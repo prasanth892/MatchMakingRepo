@@ -16,5 +16,15 @@ namespace MatchMaking.API.Data
         Task<Photo> GetPhoto(int id);
         Task<Photo> GetMainPhotoForUser(int userId);
         Task<Like> GetLike(int userId, int reciepientId);
+        
+        IEnumerable<User> GetRecommendedProfiles(List<int> ids);
+
+        Task<User> SearchUser(int id, string searchString);
+
+        Task<Message> GetMessage(int id);
+        Task<PagedList<Message>> GetMessagesForUser(MessageParams messageParams);
+        Task<IEnumerable<Message>> GetMessageThread(int userId, int recipientId);
+
+        
     }
 }

@@ -45,3 +45,31 @@
 #ngbRating:hover{
   color: green;
 }
+
+span:hover{
+  cursor: pointer;
+
+}
+input {
+  padding: 4px 10px 4px 10px;
+  border-radius: 0px;
+  background-color: #fff;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #CFD8DC;
+  color: #000;
+  cursor: pointer;
+  letter-spacing: 1px
+}
+
+input[type=date]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  display: none;
+}
+
+input:focus {
+  -moz-box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  outline-width: 0
+}

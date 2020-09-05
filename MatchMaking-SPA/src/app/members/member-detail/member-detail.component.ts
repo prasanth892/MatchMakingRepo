@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { User } from 'src/app/_models/user';
 import { UserService } from 'src/app/_services/user.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery-9';
 import {TimeAgoPipe} from 'time-ago-pipe';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
+import { TabsetComponent } from 'ngx-bootstrap/tabs';
 
 @Component({
   selector: 'app-member-detail',
@@ -13,6 +14,7 @@ import { AuthenticationService } from 'src/app/_services/authentication.service'
   styleUrls: ['./member-detail.component.scss'],
 })
 export class MemberDetailComponent implements OnInit {
+@ViewChild('memberTabs') memberTabs: TabsetComponent;
   user: User;
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
@@ -29,8 +31,20 @@ export class MemberDetailComponent implements OnInit {
     private userService: UserService, private alertifyService: AlertifyService,
     private route: ActivatedRoute, private authService: AuthenticationService) {}
 
+    ngAfterViewInit() {
+      this.route.queryParams.subscribe(params => {
+        const selectedTab = params['tab'];
+        console.log('selcted tab: ' + this.selectTab);
+        this.memberTabs.tabs[selectedTab > 0 ? selectedTab : 0].active = true;
+      });
+
+    }
   ngOnInit() {
     // this.loadUser();
+
+
+
+
     this.route.data.subscribe((data) => {
       this.user = data['user'];
       this.movies = (+this.user.movies + 1) * 10;
@@ -41,6 +55,7 @@ export class MemberDetailComponent implements OnInit {
       this.books = (+this.user.books + 1) * 10;
       this.politics = (+this.user.politics + 1) * 10;
     });
+
 
     this.galleryOptions = [
       {
@@ -55,6 +70,8 @@ export class MemberDetailComponent implements OnInit {
 
     this.galleryImages = this.getImages();
     console.log(this.getImages());
+
+
 
   }
   getImages(){
@@ -77,6 +94,11 @@ export class MemberDetailComponent implements OnInit {
       this.alertifyService.error(error);
     });
   }
+
+  selectTab(tabId: number) {
+    this.memberTabs.tabs[tabId].active = true;
+  }
+
   // loadUser() {
   //   this.userService.getUser(+this.route.snapshot.params['id']).subscribe(
   //     (next: User) => {

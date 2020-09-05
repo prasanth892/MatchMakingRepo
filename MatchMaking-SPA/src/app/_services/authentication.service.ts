@@ -5,6 +5,8 @@ import { map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
+import { AlertifyService } from './alertify.service';
+import { Router } from '@angular/router';
 
 
 @Injectable({
@@ -17,7 +19,11 @@ export class AuthenticationService {
   currentUser: User;
   photoUrl = new BehaviorSubject<string>('../../assets/user.png');
   currentPhotoUrl = this.photoUrl.asObservable();
-  constructor(private http: HttpClient) {}
+
+  newUnreadMessages = new BehaviorSubject(false);
+
+  constructor(private http: HttpClient, private alertifyService: AlertifyService,
+    private router: Router) {}
 
   changeMemberPhoto(photoUrl: string) {
     this.photoUrl.next(photoUrl);
@@ -47,5 +53,16 @@ export class AuthenticationService {
 
   register(user: User) {
     return this.http.post(this.baseUrl + 'register', user);
+  }
+
+  logout(){
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    localStorage.removeItem('recUsers');
+    this.decodedToken = null;
+    this.currentUser = null;
+    this.alertifyService.error('Logout');
+    this.router.navigate(['/home']);
+    return false;
   }
 }

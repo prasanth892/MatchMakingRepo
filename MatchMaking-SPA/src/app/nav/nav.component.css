@@ -31,3 +31,33 @@ a:hover {
 #btnLogin {
 height: 5px;
 }
+
+
+.aiRecommend:hover{
+  font-size: 16px;
+  transition: font-size 0.2s;
+    color: red;
+    animation:blinkingText 1.2s infinite;
+
+}
+.blinking{
+  animation:blinkingText 1.2s infinite;
+}
+
+@keyframes blinkingText{
+  0%{     color: rgb(255, 106, 106);    }
+  25%{     color: rgb(255, 106, 106);    }
+  49%{    color: white; }
+  60%{    color: rgb(111, 255, 103);; }
+  100%{   color:#00695c;    }
+}
+
+/* nav{
+  position: absolute;
+} */
+
+.spinner{
+  position: absolute;
+  top: 5px;
+  left: 0px;
+}

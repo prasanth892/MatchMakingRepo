@@ -35,9 +35,9 @@ namespace MatchMaking.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-           
 
-            services.AddMvc().AddNewtonsoftJson(options=> options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.AddMvc().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddCors();
             services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
             services.AddAutoMapper();
@@ -70,23 +70,25 @@ namespace MatchMaking.API
             }
             else
             {
-                app.UseExceptionHandler(builder => {
+                app.UseExceptionHandler(builder =>
+                {
                     builder.Run(
-                        async context => {
-                            context.Response.StatusCode= (int)HttpStatusCode.InternalServerError;
+                        async context =>
+                        {
+                            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
                             var error = context.Features.Get<IExceptionHandlerFeature>();
-                            if(error != null)
+                            if (error != null)
                             {
                                 context.Response.AddApplicationError(error.Error.Message);
                                 await context.Response.WriteAsync(error.Error.Message);
                             }
                         });
                 });
-   
+
             }
 
-          //  seeder.SeedUsers();
+            //  seeder.SeedUsers();
 
             app.UseCors(builder => builder
               .AllowAnyOrigin()

@@ -5,6 +5,7 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { User } from '../_models/user';
 import { Router } from '@angular/router';
+import { CountryList } from 'src/app/_helpers/countryList';
 
 @Component({
   selector: 'app-register',
@@ -18,6 +19,8 @@ export class RegisterComponent implements OnInit {
   user: User;
   registerForm: FormGroup;
   bsConfig: Partial<BsDatepickerConfig>;
+  countryList = new CountryList().countryLists;
+
 
   constructor(public authService: AuthenticationService, private alertify: AlertifyService,
     private formBuilder: FormBuilder, private router: Router) {}
@@ -68,7 +71,7 @@ export class RegisterComponent implements OnInit {
         this.router.navigate(['/members']);
       })
     });
-    }
+   }
   }
   cancel() {
     this.cancelRegister.emit(false);

@@ -27,7 +27,7 @@
       <div class="card-footer">
         <div class="btn-group d-flex">
           <button class="btn btn-primary  w-100 mr-3" (click)="sendLike(user.id)">Like</button>
-          <button class="btn btn-success w-100">Message</button>
+          <button class="btn btn-success w-100" (click)="selectTab(3)">Message</button>
         </div>
       </div>
     </div>
@@ -36,7 +36,7 @@
 
   <div class="col-sm-8">
     <div class="tab-panel" style="color: red;">
-      <tabset class="member-tabset mb-4 ">
+      <tabset class="member-tabset mb-4 " #memberTabs>
         <tab heading="About {{user?.knownAs}}" >
           <h4 >Bios</h4>
           <p>{{user?.bios}}</p>
@@ -96,7 +96,7 @@
           </div>
         </tab>
         <tab heading="Messages">
-          <p>Messages will go here</p>
+          <app-member-messages [recipientId]="user.id"></app-member-messages>
         </tab>
       </tabset>
     </div>

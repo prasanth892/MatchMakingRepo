@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { User } from '../_models/user';
 import { PaginatedResult } from '../_models/pagination';
 import { map } from 'rxjs/operators';
+import { Message } from '../_models/message';
 
 // const httpOptions = {
 //   headers: new HttpHeaders({
@@ -58,7 +59,7 @@ getUsers(page?, itemsPerPage?,  userParams?, likesParams?): Observable<Paginated
               if (response.headers.get('Pagination') != null) {
                   paginatedResult.pagination = JSON.parse(
                   response.headers.get('Pagination'))
-                  console.log(paginatedResult);
+                  // console.log(paginatedResult);
               }
               return paginatedResult
           })
@@ -73,7 +74,6 @@ updateUser(id: number, user: User) {
   return this.http.put(this.baseUrl + 'user/updateuser/' + id, user);
 }
 
-
 setMainPhoto(userId: number, id: number) {
   return this.http.post(
       this.baseUrl + 'users/' + userId + '/photoes/' + id + '/setMain',
@@ -84,9 +84,58 @@ setMainPhoto(userId: number, id: number) {
 deletePhoto(userId: number, id: number) {
   return this.http.delete(this.baseUrl + 'users/' + userId + '/photoes/' + id);
 }
-
 sendLike(id: number, recipientId: number) {
   return this.http.post(this.baseUrl + 'user/' + id + '/like/' + recipientId, {});
+}
+
+getRecommendation(id) {
+  return this.http.post(this.baseUrl + 'user/recommendations/' + id, {});
+}
+
+searchUser(id, seachString): Observable<User> {
+  return this.http.get<User>(this.baseUrl + 'user/searchuser/' + id + '?searchString=' + seachString);
+}
+
+getMessages(id: number, page?, itemsPerPage?, messageContainer?) {
+  const paginatedResult: PaginatedResult<Message[]> = new PaginatedResult<Message[]>();
+
+  let params = new HttpParams();
+
+  params = params.append('MessageContainer', messageContainer);
+
+  if (page != null && itemsPerPage != null) {
+      params = params.append('pageNumber', page)
+      params = params.append('pageSize', itemsPerPage)
+  }
+
+  return this.http.get<Message[]>(this.baseUrl + 'user/' + id + '/messages', {observe: 'response', params})
+              .pipe(map( response =>{
+                      paginatedResult.result = response.body;
+                      if (response.headers.get('Pagination') !== null) {
+                          paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+                      }
+                      return paginatedResult;
+                  })
+              );
+
+}
+
+
+getMessageThread(id: number, recipientId: number) {
+  return this.http.get<Message[]>(this.baseUrl + 'user/' + id + '/messages/thread/' + recipientId);
+}
+
+sendMessage(id: number, message: Message) {
+  return this.http.post(this.baseUrl + 'user/' + id + '/messages', message);
+}
+
+deleteMessage(id: number, userId: number) {
+  return this.http.post(this.baseUrl + 'user/' + userId + '/messages/' + id, {});
+}
+
+markAsRead(userId: number, messageId: number) {
+  this.http.post(this.baseUrl + 'user/' + userId + '/messages/' + messageId + '/read', {})
+    .subscribe();
 }
 
 }

@@ -1,4 +1,16 @@
-<div class="text-center mb-3" style="margin-top: -30px;">
+
+<ngx-spinner
+bdColor="rgba(51,51,51,0.8)"
+size="medium"
+color="#fff"
+type="ball-scale-multiple">
+
+<p style="font-size: 20px; color: white">Loading Members..!</p>
+</ngx-spinner>
+
+
+
+<div class="text-center mb-5" style="margin-top: -30px;">
   <h2>Your matches - {{pagination.totalItems}} found</h2>
 </div>
 
@@ -18,18 +30,8 @@
       <input type="number" class="form-control ml-1" max="69" [(ngModel)]="userParams.maxAge" style="width: 70px" id="maxAge" name="maxAge">
     </div>
 
-
-       <!-- <div fxLayoutAlign="center">
-          <mat-select-country appearance="outline"
-          placeholder="Country"
-          name="country"
-          valuetext="userParams.country"
-          (onCountrySelected)="onCountrySelected($event)">
-          </mat-select-country>
-      </div> -->
-
       <!-- <label for="gender">Country: </label> -->
-      <select class="form-control ml-1" style="width: 200px" id="country" [(ngModel)]="userParams.country" name="country">
+      <select class="form-control ml-1" style="width: 150px" id="country" [(ngModel)]="userParams.country" name="country">
         <option *ngFor="let country of countryList" [value]="country.value" >
           {{country.display}}
         </option>
@@ -38,7 +40,7 @@
 
       <!-- <label for="gender">Show: </label>
       <select class="form-control ml-1" style="width: 130px" id="gender" [(ngModel)]="userParams.gender" name="gender">
-        <option *ngFor="let gender of genderList" [value]="gender.value" >
+        <option *ngFor="let gender of genderList" [value]="gender.value" >\
           {{gender.display}}
         </option>
       </select> -->
@@ -46,9 +48,9 @@
 
 
 
-
-    <button type="submit" class="btn btn-primary" style="margin-left:10px">Apply Filters</button>
-    <button type="button" class="btn btn-success" (click)="resetFilter()" style="margin-left:10px">Reset Filter</button>
+      <button type="submit" class="btn btn-primary" style="margin-left:10px">Apply Filters <i class="fa fa-search"></i></button>
+      <button type="submit" class="btn btn-danger" style="margin-left:10px" (click)="toggleAdvancedSearch()">Search <i class="fa fa-search-plus"></i></button>
+    <button type="button" class="btn btn-success" (click)="resetFilter()" style="margin-left:10px">Reset</button>
 
     <div class="col">
       <div class="btn-group float-right">
@@ -58,6 +60,50 @@
     </div>
 
 
+    <div class="container-fluid px-1 px-sm-4 py-5 mx-auto" *ngIf="showAdvancedSearch">
+      <div class="row d-flex justify-content-center">
+          <div class="col-md-10 col-lg-9 col-xl-8">
+              <div class="card border-0">
+                  <div class="card-header bg-white">
+                      <h4 class="mb-1">Advanced Search and Filter</h4>
+                      <!-- <small class="text-muted">Create segments for filtering your data for seeing business insights.</small> -->
+                  </div>
+                  <div class="card-body px-3 px-md-5">
+
+                      <div class="card mb-3">
+                          <div class="card-header">
+                              <h6>Enter Member's Email / UserID </h6>
+                          </div>
+                          <div class="card-body">
+                              <div class="row px-4 mb-2">
+                                  <div class="col-10 text-center px-0 ">
+                                      <div class="block ">
+                                        <input type="text" (keyup.enter)="searchUser()"  class="form-group" name="searchString"  [(ngModel)]="searchString"  />
+                                      </div>
+                                  </div>
+                                  <div class="col-2 text-center ">
+                                      <div class="block ">
+                                        <button class="btn btn-success btn-md" style="height: 35px; padding-top: -18px;"(click)="searchUser()">Search</button>
+                                      </div>
+                                  </div>
+                              </div>
+
+                          </div>
+                      </div>
+                  </div>
+                  <div class=" text-center">
+                    <div class="card-footer bg-white row  ml-0 text-left"> <button class="btn btn-secondary " (click)="toggleAdvancedSearch()">Hide Search</button>
+                       <!-- <button class="btn btn-success ml-auto"><span class="fa fa-filter"></span> &nbsp;&nbsp;Apply Filter</button>-->
+                       </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+
+
+
   </form>
   <br>
 
@@ -65,8 +111,14 @@
     <h2>Total Matches: {{users?.length}}</h2>
   </div> -->
 
+  <div class="row" style="margin-top: -100px;" *ngIf="showAdvancedSearch && searchedUser">
+    <div  class="col-lg-2 col-md-3 col-sm-6">
+      <!-- <p *ngFor="let user of users"> {{user.knownAs | titlecase}}</p> -->
+      <app-member-card [user]="searchedUser"></app-member-card>
+    </div>
+  </div>
 
-  <div class="row">
+  <div class="row" *ngIf="!showAdvancedSearch ">
     <div *ngFor="let user of users" class="col-lg-2 col-md-3 col-sm-6">
       <!-- <p *ngFor="let user of users"> {{user.knownAs | titlecase}}</p> -->
       <app-member-card [user]="user"></app-member-card>
@@ -75,7 +127,7 @@
 </div>
 
 
-<div class="d-flex justify-content-center">
+<div class="d-flex justify-content-center"  *ngIf="!showAdvancedSearch ">
   <pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems" [maxSize]=10
     [ngModel]="pagination.currentPage" [itemsPerPage]="pagination.itemsPerPage"
             previousText="&lsaquo;" nextText="&rsaquo;" firstText="First" lastText="Last"

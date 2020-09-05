@@ -1,0 +1,77 @@
+<div class="text-center mb-4" style="margin-top: -30px;">
+  <h2> <span class="text text-danger"> Top-20 </span> AI-Recommended Matches </h2>
+</div>
+
+<!-- <div class="" *ngIf="showLoading" >
+  <h1>Loading....!</h1>
+</div> -->
+
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff" class="spinner"
+  type="ball-scale-multiple" >
+
+  <p style="font-size: 20px; color: white">Generating matches using Machine Learning..!</p>
+</ngx-spinner>
+
+<!-- Generating matches using Machine Learning..! -->
+
+<div class="row" >
+ <div *ngFor="let user of recommendedUsers; let i=index" class="col-lg-6 col-md-6 col-sm-6">
+  <div *ngIf="i < 20" >
+
+      <div class="card animate bg-blue  " >
+        <h5 class="card-header  " style="font-weight: bolder;  " >{{user.knownAs}}
+        <span class="float-right text-success">Matching Percentage: &nbsp; <span class="float-right text-danger"> {{ user.matchingPercent.toFixed(4) * 100 | number:'2.2-5'}}%</span> </span> </h5>
+
+      <div class="row">
+
+        <div class="card-body col-4 vr">
+
+          <div class="col-4" >
+            <img src="{{user.photoUrl || '../../../../assets/user.png'}}" style=" height: 120px;  " alt="{{user.knownAs}}">
+          </div>
+
+        </div>
+
+        <div class="card-body col-8   ">
+          <h5>Age: {{user.age}}   <span  class="pull-right text-info viewProfile" style="margin-right: 5%;" [routerLink]="['/members', user.id]"> <i class="fa fa-user-circle-o" aria-hidden="true"></i> View Profile</span></h5>
+          <h5>City: {{user.city}}</h5>
+          <h5>Country: {{user.country}}</h5>
+          <h5>Last Active: {{user.lastActive | timeAgo}}
+          </h5>
+        </div>
+
+
+     </div>
+    </div>
+  </div>
+        <!-- <div class="col-6">
+          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div> -->
+
+
+    <br>
+
+    <!-- <div class="card mb-4">
+      <div class="card-img-wrapper" >
+        <img src="{{user.photoUrl || '../../../../assets/user.png'}}" style="  width: 100%;" alt="{{user.knownAs}}">
+        <ul class="list-inline member-icons animate text-center" >
+          <li class="list-inline-item" ><button class="btn btn-primary" [routerLink]="['/members', user.id]"   ><i class="fa fa-user"></i></button></li>
+          <li class="list-inline-item"><button class="btn btn-primary" (click)="sendLike(user.id)" ><i class="fa fa-heart"></i></button></li>
+          <li class="list-inline-item"><button class="btn btn-primary"><i class="fa fa-envelope"></i></button></li>
+        </ul>
+      </div>
+    <div class="card-body p-1">
+    <h6 class="card-title text-center mb-1"><i class="fa fa-user"></i>
+      {{user.knownAs}}, {{user.age}}
+    </h6>
+    <p class="card-text text-muted text-center">{{user.country}}</p>
+    </div>
+    </div>
+   -->
+  </div>
+</div>
+

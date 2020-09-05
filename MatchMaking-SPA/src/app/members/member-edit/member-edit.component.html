@@ -1,10 +1,20 @@
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#fff" class="spinner"
+  type="ball-scale-multiple" >
+
+  <p style="font-size: 20px; color: white">Updating your data and training the Machine Learning Model..!</p>
+</ngx-spinner>
+
+
 <div class="container" style="margin-top: -40px;">
   <div class="row ml-1 text-left">
     <div class="col-sm-4 ">
       <h2>{{user.knownAs}}'s Profile</h2>
     </div>
     <div class="col-sm-8 ">
-      <div class="alert alert-primary" *ngIf="memberEditForm.dirty || clickedInterests" >
+      <div class="alert alert-danger" *ngIf="memberEditForm.dirty || clickedInterests" >
         <strong style="color: white;">You have made some changes. Any unsaved changes won't be saved..!</strong>
       </div>
     </div>
@@ -59,6 +69,15 @@
                 <label for="country">Country</label>
                 <input type="text" class="form-control" [(ngModel)]="user.country" name="country" type="text">
               </div>
+
+              <!-- <div class="form-group col-md-6">
+                <label for="country">Country</label>
+                  <select class="form-group col-md-6" id="country" [(ngModel)]="user.country" name="country">
+                <option *ngFor="let country of countryList" [value]="country.value" >
+                  {{country.display}}
+                </option>
+              </select>
+            </div> -->
             </div>
 
             </form>
@@ -86,7 +105,7 @@
                 <ngb-rating style="margin-top: -20px; "  ControlValueAccessor="true" [(rate)]="user.movies" [starTemplate]="t" [readonly]="false" [max]="9" ></ngb-rating>
                </div>
                <div class="col-1">
-                <span class="fa fa-close text-left" style="font-size: larger;" (click)="changeToZero('movies')"></span>
+                <span class="text text-danger "  style="font-weight: bolder;"  (click)="changeToZero('movies')">None</span>
                </div>
             </div>
 
@@ -98,7 +117,7 @@
                 <ngb-rating style="margin-top: -20px;" [(rate)]="user.tv" [starTemplate]="t" [readonly]="false" [max]="9" ></ngb-rating>
               </div>
               <div class="col-1">
-                <span class="fa fa-close text-left" style="font-size: larger;" (click)="changeToZero('tv')"></span>
+                <span class="text text-danger "  style="font-weight: bolder;" (click)="changeToZero('tv')">None</span>
                </div>
             </div>
 
@@ -110,7 +129,8 @@
                 <ngb-rating style="margin-top: -20px;" [(rate)]="user.religion" [starTemplate]="t" [readonly]="false" [max]="9" ></ngb-rating>
               </div>
               <div class="col-1">
-                <span class="fa fa-close text-left" style="font-size: larger;" (click)="changeToZero('relegion')"></span>
+                <span class="text text-danger " style="font-weight: bolder;" (click)="changeToZero('relegion')">None </span>
+
                </div>
             </div>
 
@@ -122,7 +142,7 @@
                 <ngb-rating style="margin-top: -20px;" [(rate)]="user.music" [starTemplate]="t" [readonly]="false" [max]="9" ></ngb-rating>
               </div>
               <div class="col-1">
-                <span class="fa fa-close text-left" style="font-size: larger;" (click)="changeToZero('music')"></span>
+                <span class="text text-danger "   style="font-weight: bolder;"  (click)="changeToZero('music')">None</span>
                </div>
             </div>
 
@@ -134,7 +154,7 @@
                 <ngb-rating style="margin-top: -20px;" [(rate)]="user.sports" [starTemplate]="t" [readonly]="false" [max]="9" ></ngb-rating>
               </div>
               <div class="col-1">
-                <span class="fa fa-close text-left" style="font-size: larger;" (click)="changeToZero('sports')"></span>
+                <span class="text text-danger "  style="font-weight: bolder;"  (click)="changeToZero('sports')">None</span>
                </div>
             </div>
 
@@ -146,7 +166,7 @@
                 <ngb-rating style="margin-top: -20px;" [(rate)]="user.books" [starTemplate]="t" [readonly]="false" [max]="9" ></ngb-rating>
               </div>
               <div class="col-1">
-                <span class="fa fa-close text-left" style="font-size: larger;" (click)="changeToZero('books')"></span>
+                <span class="text text-danger "  style="font-weight: bolder;" (click)="changeToZero('books')">None</span>
                </div>
             </div>
 
@@ -158,15 +178,16 @@
                 <ngb-rating style="margin-top: -20px;" [(rate)]="user.politics" [starTemplate]="t" [readonly]="false" [max]="9" ></ngb-rating>
               </div>
               <div class="col-1">
-                <span class="fa fa-close text-left" style="font-size: larger;" (click)="changeToZero('politics')"></span>
+                <span class="text text-danger " style="font-weight: bolder;"  (click)="changeToZero('politics')">None</span>
                </div>
             </div>
           </form>
           </tab>
 
-          <tab heading="Edit Photoes">
+          <tab heading="Edit Photoes" style="font-weight: bolder;" class="text font-weight-bold">
             <app-photo-editor [photoes]="user.photos" (getMemberPhotoChange)=(updateMainPhoto($event))></app-photo-editor>
           </tab>
+
 
 
         </tabset>

@@ -1,6 +1,15 @@
-<div  style="border: 3px solid red; "></div>
+<div  style="border: 4px solid red; "></div>
 <nav class="navbar navbar-expand-md navbar-dark   " style="background-color: black; margin-top: -3px; height: 55px">
 
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <div class="mt-5" *ngIf="unreadMsg">
+    <h2>UNREAD MESSAGE</h2>
+  </div>
 
   <div class="container">
     <a  class="navbar-brand" href="#"> <span id="spanText" style="float: left; font-weight: bolder; font-size: 25px;" (click)="gotoRegistrationPage()"  skipLocationChange
@@ -21,6 +30,11 @@
   <!-- For Job seekers -->
       <div *ngIf="loggedIn()" class="collapse navbar-collapse" id="navbarsExampleDefault"  style="cursor: pointer">
         <ul class="navbar-nav mr-auto">
+          <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link  linkClass text-light"  [routerLink]="['/recommend']" >
+              <a href="#" class="text text-capitalize  blinking" style="font-weight: bolder;">AI Reccommended <i  class="fa fa-rocket"></i></a>
+            </a>
+          </li>
           <li class="nav-item " routerLinkActive="active">
             <a class="nav-link linkClass text-light"  [routerLink]="['/members']" >Matches </a>
           </li>

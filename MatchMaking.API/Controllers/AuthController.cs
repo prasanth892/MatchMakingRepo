@@ -1,6 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.Http;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using MatchMaking.API.Data;
@@ -9,7 +12,7 @@ using MatchMaking.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-
+using Newtonsoft.Json;
 
 namespace MatchMaking.API.Controllers
 {
@@ -43,8 +46,10 @@ namespace MatchMaking.API.Controllers
             var createdUser = await repo.Register(userToCreate, userForRegisterDto.Password);
 
             var userToReturn = mapper.Map<UserForDetailDto>(createdUser);
-            
+
             return CreatedAtRoute("getuser", new {controller = "user", id = createdUser.Id}, userToReturn);
+
+        
         }
 
         [HttpPost("login")]

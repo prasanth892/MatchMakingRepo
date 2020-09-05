@@ -17,8 +17,11 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import {TimeAgoPipe} from 'time-ago-pipe';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { MatSelectCountryModule } from '@angular-material-extensions/select-country';
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatSelectModule } from "@angular/material/select";
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import {  CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
 
 
 import { AppComponent } from './app.component';
@@ -44,6 +47,10 @@ import { MemberEditResolver } from './_resolvers/member-edit.resolver';
 import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
 import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
 import { ListsResolver } from './_resolvers/lists.resolver';
+import { RecommenderComponent } from './members/recommender/recommender.component';
+import { RecommenderResolver } from './_resolvers/recommender.resolver';
+import { MessagesResolver } from './_resolvers/messages.resolver';
+import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
 
 
 export function getToken(){
@@ -71,7 +78,9 @@ export class CustomHammerConfig extends HammerGestureConfig  {
       MemberDetailComponent,
       MemberEditComponent,
       PhotoEditorComponent,
-      TimeAgoPipe
+      TimeAgoPipe,
+      RecommenderComponent,
+      MemberMessagesComponent
    ],
   imports: [
     BrowserModule,
@@ -81,6 +90,7 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     MatFormFieldModule,
     MatSelectModule,
     HttpClientModule,
+    NgxSpinnerModule,
     MatSelectCountryModule,
     PaginationModule.forRoot(),
     ButtonsModule.forRoot(),
@@ -103,6 +113,7 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     })
 
   ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   providers: [
     AuthenticationService,
     ErrorInteceptorProvide,
@@ -114,8 +125,9 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     { provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig },
     MemberEditResolver,
     PreventUnsavedChanges,
-    ListsResolver
-
+    ListsResolver,
+    RecommenderResolver,
+    MessagesResolver
 
   ],
   bootstrap: [AppComponent]
